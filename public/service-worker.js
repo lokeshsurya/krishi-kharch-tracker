@@ -1,16 +1,16 @@
-const CACHE_NAME = 'kisan-sahyog-v1';
+const CACHE_NAME = 'krishi-kharch-v1';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/offline.html',
-  '/offline.css',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/icons/splash-640x1136.png',
-  '/icons/splash-750x1334.png',
-  '/icons/splash-1242x2208.png',
-  '/icons/splash-1125x2436.png'
+  '.',
+  'index.html',
+  'manifest.json',
+  'offline.html',
+  'offline.css',
+  'icons/icon-192x192.png',
+  'icons/icon-512x512.png',
+  'icons/splash-640x1136.png',
+  'icons/splash-750x1334.png',
+  'icons/splash-1242x2208.png',
+  'icons/splash-1125x2436.png'
 ];
 
 // Install event - cache static assets
@@ -39,11 +39,6 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -54,7 +49,7 @@ self.addEventListener('fetch', (event) => {
         return fetch(event.request)
           .then((response) => {
             // Don't cache non-successful responses or non-GET requests
-            if (!response || response.status !== 200 || response.type !== 'basic' || event.request.method !== 'GET') {
+            if (!response || response.status !== 200 || event.request.method !== 'GET') {
               return response;
             }
 
@@ -69,7 +64,7 @@ self.addEventListener('fetch', (event) => {
           .catch(() => {
             // Return offline page for navigation requests
             if (event.request.mode === 'navigate') {
-              return caches.match('/offline.html');
+              return caches.match('offline.html');
             }
             
             // Return a placeholder image for image requests
