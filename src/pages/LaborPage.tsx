@@ -1,8 +1,8 @@
-
 import { useLanguage } from '@/hooks/useLanguage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LaborList from '@/components/LaborList';
 import AddLaborDialog from '@/components/AddLaborDialog';
+import { getLaborRecords, saveLaborRecords } from '@/lib/storage';
 
 export interface LaborRecord {
   id: string;
@@ -18,6 +18,17 @@ const LaborPage = () => {
   const [laborRecords, setLaborRecords] = useState<LaborRecord[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingRecord, setEditingRecord] = useState<LaborRecord | null>(null);
+
+  // Load saved labor records on mount
+  useEffect(() => {
+    const savedRecords = getLaborRecords();
+    setLaborRecords(savedRecords);
+  }, []);
+
+  // Save labor records whenever they change
+  useEffect(() => {
+    saveLaborRecords(laborRecords);
+  }, [laborRecords]);
 
   const handleAddLabor = () => {
     setEditingRecord(null);

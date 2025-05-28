@@ -1,0 +1,46 @@
+.noscript-message {
+  padding: 20px;
+  text-align: center;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+}
+
+/* Offline page styles */
+.offline-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.offline-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+}
+
+.offline-title {
+  font-size: 24px;
+  color: #166534;
+  margin-bottom: 10px;
+}
+
+.offline-message {
+  color: #374151;
+  margin-bottom: 20px;
+}
+
+.retry-button {
+  background-color: #166534;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.retry-button:hover {
+  background-color: #15803d;
+} 

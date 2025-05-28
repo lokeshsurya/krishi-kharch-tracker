@@ -1,10 +1,10 @@
-
 import { useLanguage } from '@/hooks/useLanguage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CropsList from '@/components/CropsList';
 import CropSelector from '@/components/CropSelector';
 import CropDetailsForm from '@/components/CropDetailsForm';
 import CropDetailsView from '@/components/CropDetailsView';
+import { getCrops, saveCrops } from '@/lib/storage';
 
 export interface Expense {
   id: string;
@@ -31,12 +31,31 @@ const CropsPage = () => {
   const [currentView, setCurrentView] = useState<'list' | 'selector' | 'details' | 'view'>('list');
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
 
+  // Load saved crops on mount
+  useEffect(() => {
+    const savedCrops = getCrops();
+    setCrops(savedCrops);
+  }, []);
+
+  // Save crops whenever they change
+  useEffect(() => {
+    if (crops.length > 0) {
+      saveCrops(crops);
+    }
+  }, [crops]);
+
   const handleAddCrop = () => {
     setCurrentView('selector');
   };
 
-  const handleCropSelect = (crop: Crop) => {
-    setSelectedCrop(crop);
+  const handleCropSelect = (crop: Omit<Crop, 'id'>) => {
+    // Create a temporary ID for the selected crop
+    const tempCrop: Crop = {
+      ...crop,
+      id: `temp-${Date.now()}`,
+      expenses: []
+    };
+    setSelectedCrop(tempCrop);
     setCurrentView('details');
   };
 
@@ -46,14 +65,31 @@ const CropsPage = () => {
   };
 
   const handleSaveCrop = (cropData: Crop) => {
-    setCrops(prev => [...prev, { ...cropData, id: Date.now().toString(), expenses: [] }]);
+    const newCrop: Crop = {
+      ...cropData,
+      id: Date.now().toString(),
+      expenses: []
+    };
+    
+    const updatedCrops = [...crops, newCrop];
+    setCrops(updatedCrops);
+    saveCrops(updatedCrops); // Explicitly save to localStorage
+    
     setCurrentView('list');
     setSelectedCrop(null);
   };
 
   const handleSkip = () => {
     if (selectedCrop) {
-      setCrops(prev => [...prev, { ...selectedCrop, id: Date.now().toString(), expenses: [] }]);
+      const newCrop: Crop = {
+        ...selectedCrop,
+        id: Date.now().toString(),
+        expenses: []
+      };
+      
+      const updatedCrops = [...crops, newCrop];
+      setCrops(updatedCrops);
+      saveCrops(updatedCrops); // Explicitly save to localStorage
     }
     setCurrentView('list');
     setSelectedCrop(null);
@@ -65,9 +101,11 @@ const CropsPage = () => {
   };
 
   const handleUpdateCrop = (updatedCrop: Crop) => {
-    setCrops(prev => prev.map(crop => 
+    const updatedCrops = crops.map(crop => 
       crop.id === updatedCrop.id ? updatedCrop : crop
-    ));
+    );
+    setCrops(updatedCrops);
+    saveCrops(updatedCrops); // Explicitly save to localStorage
     setSelectedCrop(updatedCrop);
   };
 

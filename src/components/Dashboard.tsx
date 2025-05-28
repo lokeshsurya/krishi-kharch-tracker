@@ -1,4 +1,3 @@
-
 import { Sprout, Users, Languages } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +24,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 p-4">
-      <div className="max-w-md mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Header with Language Switch */}
         <div className="flex justify-between items-center mb-8 pt-4">
           <div className="text-center flex-1">
@@ -47,10 +46,10 @@ const Dashboard = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <button
             onClick={handleCropsClick}
-            className="w-full bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-2xl p-6 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02] group"
+            className="bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-2xl p-6 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02] group"
           >
             <div className="flex items-center justify-center space-x-4">
               <div className="bg-green-100 group-hover:bg-green-200 rounded-full p-4 transition-colors duration-200">
@@ -64,7 +63,7 @@ const Dashboard = () => {
 
           <button
             onClick={handleLaborClick}
-            className="w-full bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-2xl p-6 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02] group"
+            className="bg-white hover:bg-green-50 border-2 border-green-200 hover:border-green-300 rounded-2xl p-6 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02] group"
           >
             <div className="flex items-center justify-center space-x-4">
               <div className="bg-green-100 group-hover:bg-green-200 rounded-full p-4 transition-colors duration-200">
@@ -79,7 +78,7 @@ const Dashboard = () => {
 
         {/* Footer */}
         <div className="text-center mt-12 text-green-600">
-          <p className="text-sm">FarmAssist v1.0</p>
+          <p className="text-sm">Krishi Kharch v1.0</p>
         </div>
       </div>
     </div>
